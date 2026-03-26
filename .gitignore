@@ -1,0 +1,34 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor folders
+/.cursor
+/.fleet
+/.idea
+/.junie
+/.nova
+/.vscode
+/.zed
+
+# Laravel specific
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/auth.json
+/database/*.sqlite
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/rector-cache/
+/storage/pail
+/vendor
+Homestead.json
+Homestead.yaml
+*.log
+.phpunit.cache
+

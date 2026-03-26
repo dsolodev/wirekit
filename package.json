@@ -1,0 +1,25 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "prettier --write resources/",
+    "test:lint": "prettier --check resources/",
+    "ncu": "ncu -u && npm install"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "axios": "^1.13.6",
+    "concurrently": "^9.2.1",
+    "laravel-vite-plugin": "^3.0.0",
+    "npm-check-updates": "^19.6.5",
+    "prettier": "^3.8.1",
+    "prettier-plugin-blade": "^3.1.4",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwindcss": "^4.2.2",
+    "vite": "^8.0.3"
+  }
+}

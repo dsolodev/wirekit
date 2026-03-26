@@ -1,0 +1,10 @@
+vendor/
+node_modules/
+storage/
+bootstrap/cache/
+public/build/
+public/js/
+public/css/
+public/fonts/
+composer.lock
+package-lock.json
