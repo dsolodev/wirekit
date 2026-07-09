@@ -7,6 +7,7 @@
   "plugins": [
     "prettier-plugin-organize-imports",
     "prettier-plugin-blade",
+    "@prettier/plugin-php",
     "prettier-plugin-tailwindcss"
   ],
   "overrides": [
