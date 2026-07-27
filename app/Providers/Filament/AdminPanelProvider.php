@@ -33,10 +33,13 @@ final class AdminPanelProvider extends PanelProvider
             ->topbar(condition: false)
             ->sidebarCollapsibleOnDesktop()
             ->profile()
+            ->strictAuthorization()
+            ->resourceCreatePageRedirect('index')
+            ->resourceEditPageRedirect('index')
             ->colors([
                 'primary' => Color::Olive,
             ])
-            ->font('Instrument Sans')
+            ->font('Public Sans')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

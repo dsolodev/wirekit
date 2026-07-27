@@ -24,14 +24,14 @@ as the admin panel.
 You can use the [Laravel Installer](https://laravel.com/docs#installing-php) to install this starter kit.
 
 ```bash
-laravel new my-app --using=dsolodev/velkit
+laravel new my-app --using=dsolodev/wirekit
 cd my-app
 ```
 
 ### Alternative: Using Composer
 
 ```bash
-composer create-project dsolodev/velkit --prefer-dist example-app
+composer create-project dsolodev/wirekit --prefer-dist example-app
 cd my-app
 ```
 
