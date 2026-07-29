@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPublicMethodParameterRector;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use RectorLaravel\Set\LaravelSetList;
@@ -39,6 +40,11 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         RenameClassConstFetchRector::class,
+        // Policy methods receive the model from the Gate whether or not the body uses it yet. Stripping
+        // the parameter would break the signature the moment a per-record check is added.
+        RemoveUnusedPublicMethodParameterRector::class => [
+            __DIR__.'/app/Policies',
+        ],
     ])
     ->withImportNames(
         removeUnusedImports: true,

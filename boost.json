@@ -8,12 +8,14 @@
     "mcp": true,
     "nightwatch": false,
     "packages": [
-        "filament/filament"
+        "filament/filament",
+        "filament/blueprint"
     ],
     "sail": false,
     "skills": [
         "laravel-best-practices",
         "pest-testing",
-        "tailwindcss-development"
+        "tailwindcss-development",
+        "filament-security-audit"
     ]
 }

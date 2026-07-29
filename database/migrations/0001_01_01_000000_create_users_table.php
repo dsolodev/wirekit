@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
@@ -12,7 +13,7 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        if (! Schema::hasTable('users')) {
+        if ($this->shouldCreate('users')) {
             Schema::create('users', function(Blueprint $table): void {
                 $table->id();
                 $table->string('name');
@@ -25,7 +26,7 @@ return new class() extends Migration {
             });
         }
 
-        if (! Schema::hasTable('password_reset_tokens')) {
+        if ($this->shouldCreate('password_reset_tokens')) {
             Schema::create('password_reset_tokens', function(Blueprint $table): void {
                 $table->string('email')->primary();
                 $table->string('token');
@@ -33,7 +34,7 @@ return new class() extends Migration {
             });
         }
 
-        if (! Schema::hasTable('sessions')) {
+        if ($this->shouldCreate('sessions')) {
             Schema::create('sessions', function(Blueprint $table): void {
                 $table->string('id')->primary();
                 $table->foreignId('user_id')->nullable()->index();
@@ -43,7 +44,6 @@ return new class() extends Migration {
                 $table->integer('last_activity')->index();
             });
         }
-
     }
 
     /**
@@ -54,5 +54,25 @@ return new class() extends Migration {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+    }
+
+    /**
+     * Determine whether a table should be created, skipping existing tables during local development.
+     *
+     * This supports iterating on a schema by dropping a single table, clearing its row from the
+     * `migrations` table, and migrating again, without disturbing tables that still hold data.
+     * Anywhere other than local development the answer is always yes, so an unexpected pre-existing
+     * table fails loudly instead of silently leaving the schema unchanged.
+     *
+     * The `Schema::create()` calls above are deliberately written out in full rather than wrapped in a
+     * helper: Larastan reads them statically to infer model properties for `checkModelProperties`.
+     */
+    private function shouldCreate(string $table): bool
+    {
+        if (! App::environment('local')) {
+            return true;
+        }
+
+        return ! Schema::hasTable($table);
     }
 };
