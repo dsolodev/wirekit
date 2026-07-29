@@ -9,6 +9,12 @@
     "starter kit"
   ],
   "license": "MIT",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.filamentphp.com/composer"
+    }
+  ],
   "require": {
     "php": "^8.5",
     "bezhansalleh/filament-shield": "^4.3",

@@ -9,6 +9,18 @@ on:
 permissions:
   contents: read
 
+# `filament/blueprint` is a paid package served from packages.filamentphp.com, which answers 401 to
+# anonymous requests. Composer reads credentials from this variable when there is no auth.json, so no
+# file is written and nothing lands on disk for a later step to print.
+#
+# Workflow level `env` reaches every step of every job, so this is declared once rather than per job.
+#
+# These two secrets are per repository and do NOT come along when this kit is used to start a project.
+# A fresh repo failing here with a 401 has simply never had them set; see "The Filament licence" in the
+# README.
+env:
+  COMPOSER_AUTH: '{"http-basic":{"packages.filamentphp.com":{"username":"${{ secrets.FILAMENT_COMPOSER_USERNAME }}","password":"${{ secrets.FILAMENT_COMPOSER_LICENSE_KEY }}"}}}'
+
 # A new push to the same branch makes the in-flight run obsolete.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -226,8 +238,10 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      # This job deliberately skips `composer install`, so audit the lock file directly. Without
+      # `--locked` the command aborts with "No installed packages found" and exits 1.
       - name: Audit Composer dependencies
-        run: composer audit --no-interaction
+        run: composer audit --locked --no-interaction
 
       - name: Audit NPM dependencies
         run: npm audit --audit-level=high

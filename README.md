@@ -21,6 +21,25 @@ as the admin panel.
 
 ## 🚀 Installation
 
+### Starting a new project — the whole sequence
+
+```bash
+laravel new my-app --using=dsolodev/wirekit   # runs wirekit:install for you
+cd my-app
+npm install && npm run build
+composer dev                                   # http://localhost:8000/admin
+
+gh repo create my-app --private --source=. --push
+gh secret set FILAMENT_COMPOSER_USERNAME    --body "your@email.com"
+gh secret set FILAMENT_COMPOSER_LICENSE_KEY --body "your-license-key"
+```
+
+Those last two lines are the step that is easy to forget and the reason CI goes red on a brand new repo. See
+[The Filament licence](#-the-filament-licence-read-this-when-something-401s) for why.
+
+Prerequisites: PHP 8.5, a running MySQL, Node, and the Filament licence already configured globally on this
+machine.
+
 ### Quick Start with Laravel Installer
 
 You can use the [Laravel Installer](https://laravel.com/docs#installing-php) to install this starter kit.
@@ -78,6 +97,45 @@ php artisan migrate --seed
 
 To use a different driver, set `DB_CONNECTION` in `.env` before installing. Only MySQL databases are created
 automatically; other drivers are migrated as-is.
+
+## 🔑 The Filament licence (read this when something 401s)
+
+`filament/blueprint` sits in `require-dev` and is a **paid** package served from `packages.filamentphp.com`, which
+answers `HTTP 401` to anyone unauthenticated. Two places need the licence key, and they are configured separately.
+
+### On a new machine — once, ever
+
+```bash
+composer config --global --auth http-basic.packages.filamentphp.com "your@email.com" "your-license-key"
+```
+
+This writes `~/.composer/auth.json`, outside any project, so it covers every project at once and can never be
+committed by accident. Verify it took:
+
+```bash
+composer config --global --list | grep filamentphp
+```
+
+The key itself is in your Filament account at <https://filamentphp.com/dashboard>.
+
+### In every new repo — once per project
+
+GitHub Actions cannot see `~/.composer/auth.json`, and personal accounts have no account-wide Actions secrets, so
+**each repo built from this kit needs its own two secrets.** Fastest way, from inside the fresh project:
+
+```bash
+gh secret set FILAMENT_COMPOSER_USERNAME    --body "your@email.com"
+gh secret set FILAMENT_COMPOSER_LICENSE_KEY --body "your-license-key"
+```
+
+Or by hand: **Settings → Secrets and variables → Actions → New repository secret**.
+
+`.github/workflows/tests.yml` folds them into the `COMPOSER_AUTH` environment variable, which Composer reads in
+place of an `auth.json`. Nothing is written to disk, so no later step can print the key, and GitHub masks both
+values in the logs.
+
+**Forget this step and CI fails on `composer install` with a 401 on `filament/blueprint`** — that is the symptom
+to recognise, and this section is the fix.
 
 ## 🛠️ Pre-configured Development Tools
 
