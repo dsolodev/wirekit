@@ -15,7 +15,6 @@
     "skills": [
         "laravel-best-practices",
         "pest-testing",
-        "tailwindcss-development",
         "filament-security-audit"
     ]
 }
