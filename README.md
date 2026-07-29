@@ -29,13 +29,13 @@ cd my-app
 npm install && npm run build
 composer dev                                   # http://localhost:8000/admin
 
-gh repo create my-app --private --source=. --push
-gh secret set FILAMENT_COMPOSER_USERNAME    --body "your@email.com"
-gh secret set FILAMENT_COMPOSER_LICENSE_KEY --body "your-license-key"
+# then, in the new repo's Settings -> Secrets and variables -> Actions, add:
+#   FILAMENT_COMPOSER_USERNAME     your@email.com
+#   FILAMENT_COMPOSER_LICENSE_KEY  your-license-key
 ```
 
-Those last two lines are the step that is easy to forget and the reason CI goes red on a brand new repo. See
-[The Filament licence](#-the-filament-licence-read-this-when-something-401s) for why.
+That last step is the one that is easy to forget and the reason CI goes red on a brand new repo. See
+[The Filament licence](#-the-filament-licence-read-this-when-something-401s) for why, and for the `gh` one-liners.
 
 Prerequisites: PHP 8.5, a running MySQL, Node, and the Filament licence already configured globally on this
 machine.
@@ -121,14 +121,16 @@ The key itself is in your Filament account at <https://filamentphp.com/dashboard
 ### In every new repo — once per project
 
 GitHub Actions cannot see `~/.composer/auth.json`, and personal accounts have no account-wide Actions secrets, so
-**each repo built from this kit needs its own two secrets.** Fastest way, from inside the fresh project:
+**each repo built from this kit needs its own two secrets.**
+
+In the browser: **Settings → Secrets and variables → Actions → New repository secret**, twice.
+
+Or with the GitHub CLI (`brew install gh && gh auth login` first), from inside the project:
 
 ```bash
 gh secret set FILAMENT_COMPOSER_USERNAME    --body "your@email.com"
 gh secret set FILAMENT_COMPOSER_LICENSE_KEY --body "your-license-key"
 ```
-
-Or by hand: **Settings → Secrets and variables → Actions → New repository secret**.
 
 `.github/workflows/tests.yml` folds them into the `COMPOSER_AUTH` environment variable, which Composer reads in
 place of an `auth.json`. Nothing is written to disk, so no later step can print the key, and GitHub masks both
