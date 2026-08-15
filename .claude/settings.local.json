@@ -1,6 +1,13 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/joeseph/Projects/PHP/wirekit diff --stat)",
+      "Bash(git -C /Users/joeseph/Projects/PHP/wirekit status --short)",
+      "Bash(git -C /Users/joeseph/Projects/PHP/wirekit diff)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "laravel-boost"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
