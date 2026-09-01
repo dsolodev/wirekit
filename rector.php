@@ -5,15 +5,11 @@ declare(strict_types = 1);
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPublicMethodParameterRector;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use RectorLaravel\Set\LaravelSetList;
-use RectorLaravel\Set\LaravelSetProvider;
 
 return RectorConfig::configure()
-    ->withSetProviders(LaravelSetProvider::class)
     ->withSets([
-        LaravelSetList::LARAVEL_130,
         LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
         LaravelSetList::LARAVEL_ARRAY_STR_FUNCTION_TO_STATIC_CALL,
         LaravelSetList::LARAVEL_CODE_QUALITY,
@@ -38,7 +34,6 @@ return RectorConfig::configure()
         __DIR__.'/tests',
     ])
     ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
         RenameClassConstFetchRector::class,
         // Policy methods receive the model from the Gate whether or not the body uses it yet. Stripping
         // the parameter would break the signature the moment a per-record check is added.
@@ -57,4 +52,4 @@ return RectorConfig::configure()
         privatization   : true,
         earlyReturn     : true,
     )
-    ->withPhpSets();
+    ->withPhpSets(php85: true);
