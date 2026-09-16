@@ -13,7 +13,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "axios": "^1.20.0",
     "concurrently": "^10.0.5",
-    "laravel-echo": "^2.4.0",
+    "laravel-echo": "^2.5.0",
     "laravel-vite-plugin": "^3.2.0",
     "npm-check-updates": "^23.1.0",
     "prettier": "^3.9.6",
