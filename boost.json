@@ -18,6 +18,9 @@
         "testing-best-practices",
         "echo-development",
         "tailwindcss-development",
-        "filament-security-audit"
+        "filament-development",
+        "filament-security-audit",
+        "planning-filament",
+        "reviewing-filament-plans"
     ]
 }
