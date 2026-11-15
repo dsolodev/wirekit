@@ -240,8 +240,12 @@ jobs:
 
       # This job deliberately skips `composer install`, so audit the lock file directly. Without
       # `--locked` the command aborts with "No installed packages found" and exits 1.
+      #
+      # Abandoned packages are reported but do not fail the job: `driftingly/rector-laravel` depends on
+      # the abandoned `symplify/rule-doc-generator-contracts`, a dev-only package with no replacement.
+      # Real advisories still exit non-zero.
       - name: Audit Composer dependencies
-        run: composer audit --locked --no-interaction
+        run: composer audit --locked --no-interaction --abandoned=report
 
       - name: Audit NPM dependencies
         run: npm audit --audit-level=high

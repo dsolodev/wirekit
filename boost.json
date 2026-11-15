@@ -16,7 +16,6 @@
         "infer-conventions",
         "laravel-best-practices",
         "testing-best-practices",
-        "echo-development",
         "tailwindcss-development",
         "filament-development",
         "filament-security-audit",
